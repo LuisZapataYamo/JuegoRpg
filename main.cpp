@@ -10,9 +10,21 @@
 
 
 #include <allegro.h>
+int ax,ay;
+int direccion;
+int animacion;
+int desplazamiento;
+ 
 
 int main() 
 {	
+	// inicializar vbles
+	ax = 10;
+	ay = 10;
+	direccion = 0;
+	animacion = 0;
+	desplazamiento = 4;
+	
 	allegro_init();
 	install_keyboard();
 	
@@ -26,49 +38,64 @@ int main()
 	int x,y;
 	
 	// inicializar vbles
-	x = 10;
-	y = 10;
+	ax = 10;
+	ay = 10;
+	direccion = 0;
+	animacion = 0;
+	desplazamiento = 4;
 	salir = false;
 			
-	while ( !salir )
-	{	
-          clear_to_color(buffer, 0xaaaaaa);
+while ( !salir )
+{ 
+         clear_to_color(buffer, 0xaaaaaa);
           
-          masked_blit(prota, buffer, 0,0, x, y, 32,32);
+         masked_blit(prota, buffer, animacion*32, direccion*32, x, y, 32,32);
+         ax = x;
+         ay = y;
+         // teclas control usuario
+         if ( key[KEY_DOWN] )
+         {
+              y+=desplazamiento;
+              direccion = 0;
+         }
+		 if ( key[KEY_UP] )
+         {
+              y-=desplazamiento; 
+              direccion = 3;              
+         }
+         
+         if ( key[KEY_LEFT] )
+         {
+              x-=desplazamiento;
+              direccion = 1;
+         }
+         if ( key[KEY_RIGHT] )
+         {
+              x+=desplazamiento;
+              direccion = 2;
+         }  
+         if ( ax != x || ay != y )
+         {
+              // entra si a cambiado alguna de las variables x,y
+              animacion++;
+              if ( animacion > 2 ) animacion = 0;
+         }                            
           
-          // teclas control usuario
-          if ( key[KEY_UP] )
-          {
-               y--;
-          }
-          if ( key[KEY_DOWN] )
-          {
-               y++;
-          }
-          if ( key[KEY_LEFT] )
-          {
-               x--;
-          }
-          if ( key[KEY_RIGHT] )
-          {
-               x++;
-          }                              
-          
-          // limites
-          if ( x < 0 ) x = 0;
-          if ( x > 800 ) x = 800;
-          if ( y < 0 ) y = 0;
-          if ( y > 600 ) y = 600;          
+         // limites
+         if ( x < 0 ) x = 0;
+         if ( x > 800 ) x = 800;
+         if ( y < 0 ) y = 0;
+         if ( y > 600 ) y = 600;          
           
           
-    	  blit(buffer, screen, 0, 0, 0, 0, 800, 600);
-    	  
-    	  rest(10);
-    	  
-    	  // tecla de salida
-    	  if ( key[KEY_ESC] ) salir = true;
-    	      	  
-    }  
+      blit(buffer, screen, 0, 0, 0, 0, 800, 600);
+       
+      rest(60);
+       
+      // tecla de salida
+      if ( key[KEY_ESC] ) salir = true;
+              
+   }  
 		
 	destroy_bitmap(prota);
 	destroy_bitmap(buffer);
