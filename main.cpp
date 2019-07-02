@@ -53,17 +53,33 @@ while ( !salir )
          ax = x;
          ay = y;
          // teclas control usuario
+         
+		 if ( key[KEY_UP] )
+         {
+         	for(int i = 0; i < 30; i++){
+         		if(i == 0){
+         			for(int f = 0; f <30; f++){
+         			clear_to_color(buffer, 0xaaaaaa);
+         			masked_blit(prota, buffer, animacion*32, direccion*32, x, y, 32,32);
+	              	y-=desplazamiento; 
+	                direccion = 3;
+	                blit(buffer, screen, 0, 0, 0, 0, 800, 600);
+	                rest(5);
+			    	}
+				 }
+				clear_to_color(buffer, 0xaaaaaa);
+				masked_blit(prota, buffer, animacion*32, direccion*32, x, y, 32,32);
+			    y+=desplazamiento;
+                direccion = 0;
+                blit(buffer, screen, 0, 0, 0, 0, 800, 600);
+                rest(5);
+			 }       
+         }
          if ( key[KEY_DOWN] )
          {
               y+=desplazamiento;
               direccion = 0;
          }
-		 if ( key[KEY_UP] )
-         {
-              y-=desplazamiento; 
-              direccion = 3;              
-         }
-         
          if ( key[KEY_LEFT] )
          {
               x-=desplazamiento;
