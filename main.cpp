@@ -8,7 +8,7 @@
          mas informacion en la web        
 */
 
-
+//Probando
 #include <allegro.h>
 int ax,ay;
 int direccion;
